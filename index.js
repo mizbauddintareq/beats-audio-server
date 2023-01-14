@@ -61,6 +61,13 @@ async function run() {
       res.send(categories);
     });
 
+    // Post Product API
+    app.post("/products", async (req, res) => {
+      const product = req.body;
+      const result = await productsCollection.insertOne(product);
+      res.send(result);
+    });
+
     // Get Products By Category
     app.get("/products/category/:name", async (req, res) => {
       const name = req.params.name;
