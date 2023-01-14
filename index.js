@@ -76,6 +76,14 @@ async function run() {
       const results = await ordersCollection.insertOne(bookings);
       res.send(results);
     });
+
+    // Get My Orders API
+    app.get("/my-orders", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const myOrders = await ordersCollection.find(query).toArray();
+      res.send(myOrders);
+    });
   } finally {
   }
 }
