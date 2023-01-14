@@ -23,7 +23,7 @@ async function run() {
       .collection("catagories");
     const usersCollection = client.db("beatsAudio").collection("users");
     const productsCollection = client.db("beatsAudio").collection("products");
-    const bookingsCollection = client.db("beatsAudio").collection("bookings");
+    const ordersCollection = client.db("beatsAudio").collection("orders");
 
     // Post User API
     app.post("/users", async (req, res) => {
@@ -46,6 +46,15 @@ async function run() {
       res.send(users);
     });
 
+    // Check User Role
+    app.get("/users/role", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+
+      const user = await usersCollection.findOne(query);
+      res.send(user);
+    });
+
     // Get All Categories API
     app.get("/categories", async (req, res) => {
       const categories = await categoriesCollection.find({}).toArray();
@@ -64,7 +73,7 @@ async function run() {
     // Post Bookings API
     app.post("/bookings", async (req, res) => {
       const bookings = req.body;
-      const results = await bookingsCollection.insertOne(bookings);
+      const results = await ordersCollection.insertOne(bookings);
       res.send(results);
     });
   } finally {
